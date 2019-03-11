@@ -109,7 +109,7 @@ func NewSchemaHandlerFromJSON(str string) (sh *SchemaHandler, err error) {
 			infos = append(infos, newInfo)
 
 			schema = parquet.NewSchemaElement()
-			schema.Name = "key_value"
+			schema.Name = "map"
 			rt2 := parquet.FieldRepetitionType_REPEATED
 			schema.RepetitionType = &rt2
 			ct2 := parquet.ConvertedType_MAP_KEY_VALUE
@@ -120,7 +120,7 @@ func NewSchemaHandlerFromJSON(str string) (sh *SchemaHandler, err error) {
 
 			newInfo = Common.NewTag()
 			Common.DeepCopy(info, newInfo)
-			newInfo.InName, newInfo.ExName = "key_value", "key_value"
+			newInfo.InName, newInfo.ExName = "map", "map"
 			infos = append(infos, newInfo)
 
 			stack = append(stack, item.Fields[1]) //put value
