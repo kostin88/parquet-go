@@ -146,7 +146,13 @@ func (self *SchemaHandler) CreateInExMap() {
 			inPath, exPath := make([]string, 0), make([]string, 0)
 			for i := 0; i < len(stack); i++ {
 				inPath = append(inPath, self.Infos[stack[i][0]].InName)
-				exPath = append(exPath, self.Infos[stack[i][0]].ExName)
+
+
+				if len(self.Infos[stack[i][0]].ExName) == 2 {
+					exPath = append(exPath, "value") // replace '' to value
+				} else {
+					exPath = append(exPath, self.Infos[stack[i][0]].ExName)
+				}
 			}
 			inPathStr, exPathStr := Common.PathToStr(inPath), Common.PathToStr(exPath)
 			self.ExPathToInPath[exPathStr] = inPathStr
@@ -301,7 +307,7 @@ func NewSchemaHandlerFromStruct(obj interface{}) (sh *SchemaHandler, err error) 
 			infos = append(infos, newInfo)
 
 			schema = parquet.NewSchemaElement()
-			schema.Name = "key_value"
+			schema.Name = "map"
 			rt2 := parquet.FieldRepetitionType_REPEATED
 			schema.RepetitionType = &rt2
 			var numField2 int32 = 2
@@ -311,7 +317,7 @@ func NewSchemaHandlerFromStruct(obj interface{}) (sh *SchemaHandler, err error) 
 			schemaElements = append(schemaElements, schema)
 			newInfo = Common.NewTag()
 			Common.DeepCopy(item.Info, newInfo)
-			newInfo.InName, newInfo.ExName = "key_value", "key_value"
+			newInfo.InName, newInfo.ExName = "map", "map"
 			infos = append(infos, newInfo)
 
 			newItem := NewItem()

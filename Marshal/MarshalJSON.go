@@ -86,7 +86,7 @@ func MarshalJSON(ss []interface{}, bgn int, end int, schemaHandler *SchemaHandle
 				keys := node.Val.MapKeys()
 
 				if info.Type == "MAP" { //real map
-					pathStr = pathStr + ".key_value"
+					pathStr = pathStr + ".map"
 					if len(keys) <= 0 {
 						for key, table := range res {
 							if len(key) >= len(node.PathMap.Path) &&
@@ -104,7 +104,7 @@ func MarshalJSON(ss []interface{}, bgn int, end int, schemaHandler *SchemaHandle
 						value := node.Val.MapIndex(key).Elem()
 
 						newNode := nodeBuf.GetNode()
-						newNode.PathMap = node.PathMap.Children["key_value"].Children["key"]
+						newNode.PathMap = node.PathMap.Children["map"].Children["key"]
 						newNode.Val = key
 						newNode.DL = node.DL + 1
 						if j == 0 {
@@ -115,7 +115,7 @@ func MarshalJSON(ss []interface{}, bgn int, end int, schemaHandler *SchemaHandle
 						stack = append(stack, newNode)
 
 						newNode = nodeBuf.GetNode()
-						newNode.PathMap = node.PathMap.Children["key_value"].Children["value"]
+						newNode.PathMap = node.PathMap.Children["map"].Children["value"]
 						newNode.Val = value
 						newNode.DL = node.DL + 1
 						newPathStr := newNode.PathMap.Path // check again

@@ -158,7 +158,7 @@ type ParquetMap struct {
 
 func (p *ParquetMap) Marshal(node *Node, nodeBuf *NodeBufType) []*Node {
 	nodes := make([]*Node, 0)
-	path := node.PathMap.Path + ".key_value"
+	path := node.PathMap.Path + ".map"
 	keys := node.Val.MapKeys()
 	if len(keys) <= 0 {
 		return nodes
@@ -169,7 +169,7 @@ func (p *ParquetMap) Marshal(node *Node, nodeBuf *NodeBufType) []*Node {
 		key := keys[j]
 		value := node.Val.MapIndex(key)
 		newNode := nodeBuf.GetNode()
-		newNode.PathMap = node.PathMap.Children["key_value"].Children["key"]
+		newNode.PathMap = node.PathMap.Children["map"].Children["key"]
 		newNode.Val = key
 		newNode.DL = node.DL + 1
 		if j == 0 {
@@ -180,7 +180,7 @@ func (p *ParquetMap) Marshal(node *Node, nodeBuf *NodeBufType) []*Node {
 		nodes = append(nodes, newNode)
 
 		newNode = nodeBuf.GetNode()
-		newNode.PathMap = node.PathMap.Children["key_value"].Children["value"]
+		newNode.PathMap = node.PathMap.Children["map"].Children["value"]
 		newNode.Val = value
 		newNode.DL = node.DL + 1
 		if j == 0 {
